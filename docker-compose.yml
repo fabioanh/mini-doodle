@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   app:
-    image: openjdk:17-jdk-slim
+    image: openjdk:23-jdk-slim
     volumes:
       - ./build/libs:/app/build/libs
     working_dir: /app

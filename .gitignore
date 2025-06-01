@@ -26,7 +26,69 @@ replay_pid*
 # Gradle cache
 .gradle/
 build/
+!gradle/wrapper/gradle-wrapper.jar # Keep the Gradle wrapper jar
+.gradle-enterprise/
+.gradle-tooling/
+gradle-app.setting
 
 # Specific file types if they appear elsewhere
 *.bin
 *.lock
+
+
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+logs/
+
+# Package files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+/build/
+/out/
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.idea_modules/
+
+# macOS files
+.DS_Store
+.localized
+.Trashes
+._*
+
+# Windows files
+Thumbs.db
+Desktop.ini
+
+# System files
+*.swp
+*.bak
+*~
+.nfs*
+*.patch
+.fuse_hidden*
+.directory
+
+# SCM (Source Code Management) ignore files
+.git/
+.gitattributes
+.gitmodules
+.gitkeep
+
+# Various temporary files
+*.tmp
+temp/
+tmp/
