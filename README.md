@@ -1,5 +1,5 @@
 # mini-doodle
-Mini doodle application with calendar and slots organisation
+Mini doodle application with calendar, slots and meetings organisation
 
 
 ## How to run it locally
