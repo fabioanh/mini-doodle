@@ -66,3 +66,4 @@ showing the high level architecture can be found below:
 ## Future improvements
 - Make the slot transformation into a meeting transactional.
 - Validate that all participants of a meeting are real users.
+- Additional tests. (Kept very simple for lack of extra time)
