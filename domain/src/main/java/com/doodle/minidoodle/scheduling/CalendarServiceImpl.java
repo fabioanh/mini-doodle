@@ -17,7 +17,24 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     public Slot createSlotInUsersCalendar(LocalDateTime startDateTime, Duration duration, Availability availability, UserId userId){
+        if( startDateTime == null || duration == null || availability == null || userId == null) {
+            throw new IllegalArgumentException("StartDateTime, Duration, Availability and UserId cannot be null");
+        }
         return this.slotRepository.save(new Slot(startDateTime, duration, availability, userId));
+    }
+
+    @Override
+    public Slot deleteSlotFromUsersCalendar(SlotId slotId, UserId userId) {
+        if( slotId == null || userId == null) {
+            throw new IllegalArgumentException("SlotId and UserId cannot be null");
+        }
+
+        Slot slot = this.slotRepository.get(slotId);
+        if( slot == null || !slot.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("Slot not found or does not belong to the user");
+        }
+
+        return this.slotRepository.delete(slotId);
     }
 
 }
