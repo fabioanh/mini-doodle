@@ -18,6 +18,14 @@ public class Slot {
         this.userId = userId;
     }
 
+    public Slot(SlotId slotId, LocalDateTime startDate, Duration duration, Availability availability, UserId userId) {
+        this.slotId = slotId;
+        this.startTime = startDate;
+        this.duration = duration;
+        this.availability = availability;
+        this.userId = userId;
+    }
+
     public SlotId getSlotId() {
         return slotId;
     }

@@ -17,4 +17,12 @@ public interface CalendarService {
     );
 
     Slot deleteSlotFromUsersCalendar(SlotId slotId, UserId userId);
+
+    Slot updateSlotInUsersCalendar(
+            SlotId slotId,
+            LocalDateTime startDateTime,
+            Duration duration,
+            Availability availability,
+            UserId userId
+    );
 }

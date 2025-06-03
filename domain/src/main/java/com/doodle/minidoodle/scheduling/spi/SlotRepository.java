@@ -10,4 +10,6 @@ public interface SlotRepository {
     Slot get(SlotId slotId);
 
     Slot delete(SlotId slotId);
+
+    Slot update(Slot slot);
 }
