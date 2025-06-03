@@ -44,15 +44,6 @@ gradle-app.setting
 *.log
 logs/
 
-# Package files
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-/build/
-/out/
-
 # IntelliJ IDEA files
 .idea/
 *.iml

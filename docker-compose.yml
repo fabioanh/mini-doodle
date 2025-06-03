@@ -1,18 +1,26 @@
 services:
-  app:
+  mini-doodle:
     image: openjdk:23-jdk-slim
     volumes:
-      - ./infrastructure/build/libs:/app/build/libs
-    working_dir: /app
-    command: java -jar /app/build/libs/infrastructure.jar
+      - ./infrastructure/build/libs:/mini-doodle/build/libs
+      - ./opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar
+    working_dir: /mini-doodle
+    command: java -jar /mini-doodle/build/libs/infrastructure.jar
     ports:
       - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_started
+      jaeger:
+        condition: service_started
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mydatabase
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar
+      - OTEL_SERVICE_NAME=mini-doodle
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
   db:
     image: postgres:17.5
     ports:
@@ -21,3 +29,21 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=mydatabase
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
+      - "9411:9411"
+    environment:
+      QUERY_BASE_PATH: '/jaeger'
+      COLLECTOR_OTLP_GRPC_HOST_PORT: ':4317'
+      COLLECTOR_OTLP_HTTP_HOST_PORT: ':4318'
+      COLLECTOR_OTLP_ENABLED: true
+#    healthcheck: # <--- ADD THIS BLOCK
+#      test: [ "CMD", "curl", "-f", "http://localhost:14269/" ] # Jaeger UI's health endpoint
+#      interval: 5s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 10s
