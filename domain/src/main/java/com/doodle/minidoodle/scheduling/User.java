@@ -9,6 +9,14 @@ public class User {
         this.calendar = new Calendar();
     }
 
+    public User(UserId userId, Calendar calendar) {
+        if (userId == null || calendar == null) {
+            throw new IllegalArgumentException("UserId and Calendar must not be null");
+        }
+        this.userId = userId;
+        this.calendar = calendar;
+    }
+
     public UserId getUserId() {
         return userId;
     }

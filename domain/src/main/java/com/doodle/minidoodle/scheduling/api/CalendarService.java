@@ -1,12 +1,10 @@
 package com.doodle.minidoodle.scheduling.api;
 
-import com.doodle.minidoodle.scheduling.Availability;
-import com.doodle.minidoodle.scheduling.Slot;
-import com.doodle.minidoodle.scheduling.SlotId;
-import com.doodle.minidoodle.scheduling.UserId;
+import com.doodle.minidoodle.scheduling.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface CalendarService {
     Slot createSlotInUsersCalendar(
@@ -29,4 +27,14 @@ public interface CalendarService {
     Slot makeSlotAvailable(SlotId slotId, UserId userId);
 
     Slot makeSlotUnavailable(SlotId slotId, UserId userId);
+
+    Meeting transformSlotToMeeting(SlotId slotId, UserId userId);
+
+    Meeting updateMeetingDetails(
+            MeetingId meetingId,
+            String title,
+            String description,
+            List<UserId> participants,
+            UserId userId
+    );
 }

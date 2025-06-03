@@ -11,6 +11,9 @@ public class Slot {
     private UserId userId;
 
     public Slot(LocalDateTime startDate, Duration duration, Availability availability, UserId userId) {
+        if (startDate == null || duration == null || availability == null || userId == null) {
+            throw new IllegalArgumentException("StartDate, Duration, Availability and UserId cannot be null");
+        }
         this.slotId = new SlotId();
         this.startTime = startDate;
         this.duration = duration;
@@ -19,6 +22,9 @@ public class Slot {
     }
 
     public Slot(SlotId slotId, LocalDateTime startDate, Duration duration, Availability availability, UserId userId) {
+        if (slotId == null || startDate == null || duration == null || availability == null || userId == null) {
+            throw new IllegalArgumentException("SlotId, StartDate, Duration, Availability and UserId cannot be null");
+        }
         this.slotId = slotId;
         this.startTime = startDate;
         this.duration = duration;

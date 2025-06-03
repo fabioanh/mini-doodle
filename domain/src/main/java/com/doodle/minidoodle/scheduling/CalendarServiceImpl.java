@@ -2,18 +2,22 @@ package com.doodle.minidoodle.scheduling;
 
 import com.doodle.minidoodle.scheduling.annotations.DomainService;
 import com.doodle.minidoodle.scheduling.api.CalendarService;
+import com.doodle.minidoodle.scheduling.spi.MeetingRepository;
 import com.doodle.minidoodle.scheduling.spi.SlotRepository;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @DomainService
 public class CalendarServiceImpl implements CalendarService {
 
     private final SlotRepository slotRepository;
+    private final MeetingRepository meetingRepository;
 
-    public CalendarServiceImpl(SlotRepository slotRepository) {
+    public CalendarServiceImpl(SlotRepository slotRepository, MeetingRepository meetingRepository) {
         this.slotRepository = slotRepository;
+        this.meetingRepository = meetingRepository;
     }
 
     public Slot createSlotInUsersCalendar(
@@ -68,6 +72,22 @@ public class CalendarServiceImpl implements CalendarService {
     @Override
     public Slot makeSlotUnavailable(SlotId slotId, UserId userId) {
         return updateAvailability(slotId, userId, Availability.UNAVAILABLE);
+    }
+
+    @Override
+    public Meeting transformSlotToMeeting(SlotId slotId, UserId userId) {
+        if (slotId == null || userId == null) {
+            throw new IllegalArgumentException("SlotId and UserId cannot be null");
+        }
+        Slot slot = this.slotRepository.get(slotId);
+        validateSlotOwnership(slot, userId);
+
+        return this.meetingRepository.save(new Meeting(slot));
+    }
+
+    @Override
+    public Meeting updateMeetingDetails(MeetingId meetingId, String title, String description, List<UserId> participants, UserId userId) {
+        return null;
     }
 
     private void validateSlotOwnership(Slot slot, UserId userId) {
