@@ -77,4 +77,40 @@ class CalendarServiceTest {
         Mockito.verify(slotRepository).get(Mockito.eq(slotId));
         Mockito.verify(slotRepository).update(Mockito.any(Slot.class));
     }
+
+    @Test
+    void makeSlotAvailable_basicScenario_successful() {
+        // given
+        CalendarService calendarService = new CalendarServiceImpl(slotRepository);
+        LocalDateTime startDate = LocalDateTime.of(2025, 6, 5, 10, 0);
+        Duration duration = Duration.ofHours(1);
+        User user = new User();
+        Slot slot = new Slot(startDate, duration, Availability.AVAILABLE, user.getUserId());
+        SlotId slotId = slot.getSlotId();
+        Mockito.when(slotRepository.get(slotId)).thenReturn(slot);
+        Mockito.when(slotRepository.update(Mockito.any())).thenReturn(slot);
+        // when
+        Slot availableSlot = calendarService.makeSlotAvailable(slotId, user.getUserId());
+        // then
+        Assertions.assertEquals(Availability.AVAILABLE, availableSlot.getAvailability());
+        Mockito.verify(slotRepository).update(Mockito.any(Slot.class));
+    }
+
+    @Test
+    void makeSlotUnavailable_basicScenario_successful() {
+        // given
+        CalendarService calendarService = new CalendarServiceImpl(slotRepository);
+        LocalDateTime startDate = LocalDateTime.of(2025, 6, 5, 10, 0);
+        Duration duration = Duration.ofHours(1);
+        User user = new User();
+        Slot slot = new Slot(startDate, duration, Availability.AVAILABLE, user.getUserId());
+        SlotId slotId = slot.getSlotId();
+        Mockito.when(slotRepository.get(slotId)).thenReturn(slot);
+        Mockito.when(slotRepository.update(Mockito.any())).thenReturn(slot);
+        // when
+        Slot availableSlot = calendarService.makeSlotUnavailable(slotId, user.getUserId());
+        // then
+        Assertions.assertEquals(Availability.UNAVAILABLE, availableSlot.getAvailability());
+        Mockito.verify(slotRepository).update(Mockito.any(Slot.class));
+    }
 }

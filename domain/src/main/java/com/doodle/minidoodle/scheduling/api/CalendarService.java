@@ -25,4 +25,8 @@ public interface CalendarService {
             Availability availability,
             UserId userId
     );
+
+    Slot makeSlotAvailable(SlotId slotId, UserId userId);
+
+    Slot makeSlotUnavailable(SlotId slotId, UserId userId);
 }

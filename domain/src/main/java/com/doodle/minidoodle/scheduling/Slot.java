@@ -45,4 +45,8 @@ public class Slot {
     public UserId getUserId() {
         return userId;
     }
+
+    public void setAvailability(Availability availability) {
+        this.availability = availability;
+    }
 }

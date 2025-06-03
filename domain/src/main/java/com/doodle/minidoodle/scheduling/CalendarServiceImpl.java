@@ -34,9 +34,7 @@ public class CalendarServiceImpl implements CalendarService {
         }
 
         Slot slot = this.slotRepository.get(slotId);
-        if (slot == null || !slot.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("Slot not found or does not belong to the user");
-        }
+        validateSlotOwnership(slot, userId);
 
         return this.slotRepository.delete(slotId);
     }
@@ -54,14 +52,41 @@ public class CalendarServiceImpl implements CalendarService {
         }
 
         Slot originalSlot = this.slotRepository.get(slotId);
-        if (originalSlot == null || !originalSlot.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("Slot not found or does not belong to the user");
-        }
+        validateSlotOwnership(originalSlot, userId);
 
 
         return this.slotRepository.update(
                 new Slot(slotId, startDateTime, duration, availability, userId)
         );
+    }
+
+    @Override
+    public Slot makeSlotAvailable(SlotId slotId, UserId userId) {
+        return updateAvailability(slotId, userId, Availability.AVAILABLE);
+    }
+
+    @Override
+    public Slot makeSlotUnavailable(SlotId slotId, UserId userId) {
+        return updateAvailability(slotId, userId, Availability.UNAVAILABLE);
+    }
+
+    private void validateSlotOwnership(Slot slot, UserId userId) {
+        if (slot == null || !slot.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("Slot not found or does not belong to the user");
+        }
+    }
+
+    private Slot updateAvailability(SlotId slotId, UserId userId, Availability availability) {
+        if (slotId == null || userId == null) {
+            throw new IllegalArgumentException("SlotId and UserId cannot be null");
+        }
+
+        Slot slot = this.slotRepository.get(slotId);
+        validateSlotOwnership(slot, userId);
+
+        slot.setAvailability(availability);
+
+        return this.slotRepository.update(slot);
     }
 
 }
