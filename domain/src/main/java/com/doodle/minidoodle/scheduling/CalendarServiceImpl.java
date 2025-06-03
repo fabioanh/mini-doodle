@@ -87,7 +87,26 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     public Meeting updateMeetingDetails(MeetingId meetingId, String title, String description, List<UserId> participants, UserId userId) {
-        return null;
+        if (meetingId == null || userId == null) {
+            throw new IllegalArgumentException("MeetingId and UserId cannot be null");
+        }
+
+        Meeting meeting = this.meetingRepository.get(meetingId);
+        if (meeting == null || !meeting.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("Meeting not found or does not belong to the user");
+        }
+
+        if (title != null) {
+            meeting.setTitle(title);
+        }
+        if (description != null) {
+            meeting.setDescription(description);
+        }
+        if (participants != null) {
+            meeting.setParticipants(participants);
+        }
+
+        return this.meetingRepository.update(meeting);
     }
 
     private void validateSlotOwnership(Slot slot, UserId userId) {

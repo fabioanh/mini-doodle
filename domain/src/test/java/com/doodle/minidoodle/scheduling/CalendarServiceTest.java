@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class CalendarServiceTest {
@@ -20,9 +21,6 @@ class CalendarServiceTest {
     private SlotRepository slotRepository;
     @Mock
     private MeetingRepository meetingRepository;
-
-
-
 
 
     @Test
@@ -140,5 +138,44 @@ class CalendarServiceTest {
         Assertions.assertEquals(slot.getStartTime(), meeting.getStartTime());
         Assertions.assertEquals(slot.getDuration(), meeting.getDuration());
         Mockito.verify(slotRepository).get(Mockito.eq(slotId));
+    }
+
+
+    @Test
+    void updateMeetingDetails_basicUpdate_successful() {
+        // given
+        CalendarService calendarService = new CalendarServiceImpl(slotRepository, meetingRepository);
+        LocalDateTime startDate = LocalDateTime.of(2025, 6, 5, 10, 0);
+        Duration duration = Duration.ofHours(1);
+        User user = new User();
+
+        Meeting originalMeeting = new Meeting(
+                startDate,
+                duration,
+                null,
+                null,
+                user.getUserId(),
+                List.of(user.getUserId())
+        );
+
+        MeetingId meetingId = originalMeeting.getMeetingId();
+
+        Meeting updatedMeeting = new Meeting(
+                meetingId,
+                startDate,
+                duration,
+                "Team Sync",
+                "Weekly team sync meeting",
+                user.getUserId(),
+                List.of(user.getUserId(), new UserId())
+        );
+
+        Mockito.when(meetingRepository.get(Mockito.eq(meetingId))).thenReturn(originalMeeting);
+        Mockito.when(meetingRepository.update(Mockito.any(Meeting.class))).thenReturn(updatedMeeting);
+        // when
+        Meeting resultMeeting = calendarService.updateMeetingDetails(meetingId, "Team Sync", "Weekly team sync meeting", List.of(user.getUserId(), new UserId()), user.getUserId());
+        // then
+        Assertions.assertNotNull(resultMeeting);
+        Mockito.verify(meetingRepository).update(Mockito.any(Meeting.class));
     }
 }

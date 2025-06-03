@@ -26,6 +26,19 @@ public class Meeting {
         this.participants = participants;
     }
 
+    public Meeting(MeetingId meetingId, LocalDateTime startTime, Duration duration, String title, String description, UserId userId, List<UserId> participants) {
+        if (meetingId == null || startTime == null || duration == null || userId == null || participants == null) {
+            throw new IllegalArgumentException("MeetingId, StartTime, Duration, UserId, and Participants cannot be null");
+        }
+        this.meetingId = meetingId;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.title = title;
+        this.description = description;
+        this.userId = userId;
+        this.participants = participants;
+    }
+
     public Meeting(Slot slot) {
         if (slot == null) {
             throw new IllegalArgumentException("Slot cannot be null");
@@ -65,5 +78,20 @@ public class Meeting {
 
     public List<UserId> getParticipants() {
         return participants;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setParticipants(List<UserId> participants) {
+        if (participants == null) {
+            throw new IllegalArgumentException("Participants cannot be null");
+        }
+        this.participants = participants;
     }
 }
