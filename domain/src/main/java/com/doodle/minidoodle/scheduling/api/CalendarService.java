@@ -37,4 +37,6 @@ public interface CalendarService {
             List<UserId> participants,
             UserId userId
     );
+
+    Calendar getCalendarForUser(UserId userId);
 }

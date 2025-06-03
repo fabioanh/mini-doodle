@@ -109,6 +109,16 @@ public class CalendarServiceImpl implements CalendarService {
         return this.meetingRepository.update(meeting);
     }
 
+    @Override
+    public Calendar getCalendarForUser(UserId userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("UserId cannot be null");
+        }
+        List<Slot> slots = this.slotRepository.getUserSlots(userId);
+        List<Meeting> meetings = this.meetingRepository.getUserMeetings(userId);
+        return new Calendar(slots, meetings);
+    }
+
     private void validateSlotOwnership(Slot slot, UserId userId) {
         if (slot == null || !slot.getUserId().equals(userId)) {
             throw new IllegalArgumentException("Slot not found or does not belong to the user");

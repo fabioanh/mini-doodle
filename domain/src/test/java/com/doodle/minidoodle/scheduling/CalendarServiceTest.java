@@ -178,4 +178,28 @@ class CalendarServiceTest {
         Assertions.assertNotNull(resultMeeting);
         Mockito.verify(meetingRepository).update(Mockito.any(Meeting.class));
     }
+
+    @Test
+    void getCalendarForUser_basicScenario_successful() {
+        // given
+        CalendarService calendarService = new CalendarServiceImpl(slotRepository, meetingRepository);
+        User user = new User();
+        LocalDateTime startDate = LocalDateTime.of(2025, 6, 5, 10, 0);
+        LocalDateTime meetingStartDate = LocalDateTime.of(2025, 6, 5, 12, 0);
+        Duration duration = Duration.ofHours(1);
+        Slot slot = new Slot(startDate, duration, Availability.AVAILABLE, user.getUserId());
+        Meeting meeting = new Meeting(meetingStartDate, Duration.ofHours(2), "Meeting Title", "Meeting Description", user.getUserId(), List.of(user.getUserId()));
+
+        Calendar calendar = new Calendar(List.of(slot), List.of(meeting));
+        Mockito.when(slotRepository.getUserSlots(user.getUserId())).thenReturn(List.of(slot));
+        Mockito.when(meetingRepository.getUserMeetings(user.getUserId())).thenReturn(List.of(meeting));
+        // when
+        Calendar resultCalendar = calendarService.getCalendarForUser(user.getUserId());
+        // then
+        Assertions.assertNotNull(resultCalendar);
+        Assertions.assertEquals(List.of(slot), resultCalendar.getSlots());
+        Assertions.assertEquals(List.of(meeting), resultCalendar.getMeetings());
+        Mockito.verify(slotRepository).getUserSlots(Mockito.eq(user.getUserId()));
+        Mockito.verify(meetingRepository).getUserMeetings(Mockito.eq(user.getUserId()));
+    }
 }
