@@ -136,6 +136,7 @@ class CalendarServiceTest {
         Assertions.assertEquals(slot.getStartTime(), meeting.getStartTime());
         Assertions.assertEquals(slot.getDuration(), meeting.getDuration());
         Mockito.verify(slotRepository).get(Mockito.eq(slotId));
+        Mockito.verify(slotRepository).delete(Mockito.eq(slotId));
     }
 
 

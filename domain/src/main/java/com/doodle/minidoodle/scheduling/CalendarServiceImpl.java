@@ -82,6 +82,8 @@ public class CalendarServiceImpl implements CalendarService {
         Slot slot = this.slotRepository.get(slotId);
         validateSlotOwnership(slot, userId);
 
+        this.slotRepository.delete(slotId);
+
         return this.meetingRepository.save(new Meeting(slot));
     }
 

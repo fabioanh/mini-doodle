@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,9 +31,9 @@ public class MeetingEntity {
         this.title = meeting.getTitle();
         this.description = meeting.getDescription();
         this.userId = meeting.getUserId().id();
-        this.participants = meeting.getParticipants().stream()
+        this.participants = meeting.getParticipants() != null? meeting.getParticipants().stream()
                 .map(UserId::getId)
-                .toList();
+                .toList() : Collections.emptyList();
     }
 
     public MeetingEntity() {
