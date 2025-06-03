@@ -8,6 +8,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+    alias(libs.plugins.springBoot)
 }
 
 repositories {
@@ -44,7 +45,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "org.example.App"
+    mainClass = "com.doodle.MiniDoodleApplication"
 }
 
 tasks.named<Test>("test") {

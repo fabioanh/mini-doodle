@@ -17,6 +17,10 @@ public class User {
         this.calendar = calendar;
     }
 
+    public User(UserId userId) {
+        this.userId = userId;
+    }
+
     public UserId getUserId() {
         return userId;
     }

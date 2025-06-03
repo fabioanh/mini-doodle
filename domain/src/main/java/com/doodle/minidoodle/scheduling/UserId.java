@@ -12,4 +12,8 @@ public record UserId(UUID id) {
     public UserId() {
         this(UUID.randomUUID());
     }
+
+    public UUID getId() {
+        return id;
+    }
 }

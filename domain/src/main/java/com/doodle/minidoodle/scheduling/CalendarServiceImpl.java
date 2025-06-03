@@ -32,7 +32,7 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
-    public Slot deleteSlotFromUsersCalendar(SlotId slotId, UserId userId) {
+    public void deleteSlotFromUsersCalendar(SlotId slotId, UserId userId) {
         if (slotId == null || userId == null) {
             throw new IllegalArgumentException("SlotId and UserId cannot be null");
         }
@@ -40,7 +40,7 @@ public class CalendarServiceImpl implements CalendarService {
         Slot slot = this.slotRepository.get(slotId);
         validateSlotOwnership(slot, userId);
 
-        return this.slotRepository.delete(slotId);
+        this.slotRepository.delete(slotId);
     }
 
     @Override

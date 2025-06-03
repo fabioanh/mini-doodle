@@ -21,3 +21,6 @@ spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "springBoot" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "springBoot" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+
+[plugins]
+springBoot = { id = "org.springframework.boot", version.ref = "springBoot" }

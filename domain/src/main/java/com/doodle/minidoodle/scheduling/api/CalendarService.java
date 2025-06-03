@@ -14,7 +14,7 @@ public interface CalendarService {
             UserId userId
     );
 
-    Slot deleteSlotFromUsersCalendar(SlotId slotId, UserId userId);
+    void deleteSlotFromUsersCalendar(SlotId slotId, UserId userId);
 
     Slot updateSlotInUsersCalendar(
             SlotId slotId,

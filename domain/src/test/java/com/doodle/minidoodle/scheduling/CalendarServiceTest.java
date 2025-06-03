@@ -48,11 +48,9 @@ class CalendarServiceTest {
         Slot retrievedSlot = new Slot(startDate, duration, Availability.AVAILABLE, user.getUserId());
         SlotId slotId = retrievedSlot.getSlotId();
         Mockito.when(slotRepository.get(slotId)).thenReturn(retrievedSlot);
-        Mockito.when(slotRepository.delete(slotId)).thenReturn(retrievedSlot);
         // when
-        Slot deletedSlot = calendarService.deleteSlotFromUsersCalendar(slotId, user.getUserId());
+        calendarService.deleteSlotFromUsersCalendar(slotId, user.getUserId());
         // then
-        Assertions.assertNotNull(deletedSlot);
         Mockito.verify(slotRepository).get(Mockito.eq(slotId));
         Mockito.verify(slotRepository).delete(Mockito.eq(slotId));
     }
