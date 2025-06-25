@@ -4,7 +4,7 @@ Mini doodle application with calendar, slots and meetings organisation
 
 ## How to run it locally
 The application is built using `gradle`. The current files include a gradle wrapper
-that can be used to build the application. To do this execute the following command:
+that can be used to build the application. To do this, execute the following command:
 
 ```bash
 ./gradlew build
@@ -47,7 +47,7 @@ It's important to note that all date time and duration values are using the ISO 
 ```
 - `DELETE /users/{userId}/slots/{slotId}` => Deletes the slot.
 - `POST /users/{userId}/slots/{slotId}/toMeeting` => Transforms the slot into a meeting.
-- `PUT /users/{userId}/meetings/{meetingId}/` => Allows to update the title, description and participants of a meeting. 
+- `PUT /users/{userId}/meetings/{meetingId}/` => Allows updating the title, description and participants of a meeting. 
 An example of the body can be found below:
 ```json
 {
@@ -64,6 +64,6 @@ showing the high level architecture can be found below:
 <img src="./mini-doodle-design.svg">
 
 ## Future improvements
-- Make the slot transformation into a meeting transactional.
+- Make the slot transformation into meetings transactional.
 - Validate that all participants of a meeting are real users.
 - Additional tests. (Kept very simple for lack of extra time)
