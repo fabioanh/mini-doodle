@@ -1,9 +1,9 @@
 package com.doodle.controllers;
 
+import com.doodle.controllers.dtos.*;
 import com.doodle.minidoodle.scheduling.*;
 import com.doodle.minidoodle.scheduling.api.CalendarService;
 import com.doodle.minidoodle.scheduling.api.UserService;
-import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +38,7 @@ public class UserController {
     @PostMapping("/{userIdParam}/slots")
     public ResponseEntity<SlotResource> createSlot(@PathVariable UUID userIdParam, @RequestBody CreateSlotRequest createSlotRequest) {
         UserId userId = new UserId(userIdParam);
-        Slot createdSlot = calendarService.createSlotInUsersCalendar(createSlotRequest.startTime, createSlotRequest.duration, createSlotRequest.availability, userId);
+        Slot createdSlot = calendarService.createSlotInUsersCalendar(createSlotRequest.startTime(), createSlotRequest.duration(), createSlotRequest.availability(), userId);
         return ResponseEntity.ok(new SlotResource(createdSlot));
     }
 
@@ -74,7 +74,7 @@ public class UserController {
     @PutMapping("/{userIdParam}/slots/{slotId}")
     public ResponseEntity updateSlot(@PathVariable UUID userIdParam, @PathVariable UUID slotId, @RequestBody UpdateSlotRequest updateSlotRequest) {
         UserId userId = new UserId(userIdParam);
-        Slot updatedSlot = calendarService.updateSlotInUsersCalendar(new SlotId(slotId), updateSlotRequest.startTime, updateSlotRequest.duration, updateSlotRequest.availability, userId);
+        Slot updatedSlot = calendarService.updateSlotInUsersCalendar(new SlotId(slotId), updateSlotRequest.startTime(), updateSlotRequest.duration(), updateSlotRequest.availability(), userId);
         return ResponseEntity.ok(new SlotResource(updatedSlot));
     }
 
@@ -83,9 +83,9 @@ public class UserController {
         UserId userId = new UserId(userIdParam);
         Meeting updatedMeeting = calendarService.updateMeetingDetails(
                 new MeetingId(meetingId),
-                updateMeetingRequest.title,
-                updateMeetingRequest.description,
-                updateMeetingRequest.participants.stream().map(UUID::fromString).map(UserId::new).toList(),
+                updateMeetingRequest.title(),
+                updateMeetingRequest.description(),
+                updateMeetingRequest.participants().stream().map(UUID::fromString).map(UserId::new).toList(),
                 userId
         );
         return ResponseEntity.ok(new MeetingResource(updatedMeeting));

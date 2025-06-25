@@ -30,7 +30,7 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=mydatabase
   jaeger:
-    image: jaegertracing/all-in-one:latest
+    image: jaegertracing/all-in-one:1.70.0
     ports:
       - "16686:16686"
       - "4317:4317"
@@ -41,9 +41,3 @@ services:
       COLLECTOR_OTLP_GRPC_HOST_PORT: ':4317'
       COLLECTOR_OTLP_HTTP_HOST_PORT: ':4318'
       COLLECTOR_OTLP_ENABLED: true
-#    healthcheck: # <--- ADD THIS BLOCK
-#      test: [ "CMD", "curl", "-f", "http://localhost:14269/" ] # Jaeger UI's health endpoint
-#      interval: 5s
-#      timeout: 5s
-#      retries: 5
-#      start_period: 10s

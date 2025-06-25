@@ -1,31 +1,22 @@
 package com.doodle.minidoodle.scheduling;
 
-public class User {
-    private UserId userId;
-    private Calendar calendar;
+public record User(
+        UserId userId,
+        Calendar calendar
+) {
 
-    public User() {
-        this.userId = new UserId();
-        this.calendar = new Calendar();
-    }
-
-    public User(UserId userId, Calendar calendar) {
+    public User {
         if (userId == null || calendar == null) {
             throw new IllegalArgumentException("UserId and Calendar must not be null");
         }
-        this.userId = userId;
-        this.calendar = calendar;
+    }
+
+    public User() {
+        this(new UserId(), new Calendar());
     }
 
     public User(UserId userId) {
-        this.userId = userId;
+        this(userId, new Calendar());
     }
 
-    public UserId getUserId() {
-        return userId;
-    }
-
-    public Calendar getCalendar() {
-        return calendar;
-    }
 }

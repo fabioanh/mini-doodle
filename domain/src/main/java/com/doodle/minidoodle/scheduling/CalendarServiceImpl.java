@@ -84,7 +84,7 @@ public class CalendarServiceImpl implements CalendarService {
 
         this.slotRepository.delete(slotId);
 
-        return this.meetingRepository.save(new Meeting(slot));
+        return this.meetingRepository.save(Meeting.fromSlot(slot));
     }
 
     @Override
@@ -94,21 +94,11 @@ public class CalendarServiceImpl implements CalendarService {
         }
 
         Meeting meeting = this.meetingRepository.get(meetingId);
-        if (meeting == null || !meeting.getUserId().equals(userId)) {
+        if (meeting == null || !meeting.userId().equals(userId)) {
             throw new IllegalArgumentException("Meeting not found or does not belong to the user");
         }
 
-        if (title != null) {
-            meeting.setTitle(title);
-        }
-        if (description != null) {
-            meeting.setDescription(description);
-        }
-        if (participants != null) {
-            meeting.setParticipants(participants);
-        }
-
-        return this.meetingRepository.update(meeting);
+        return this.meetingRepository.update(meeting.withTitle(title).withDescription(description).withParticipants(participants));
     }
 
     @Override
@@ -122,7 +112,7 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     private void validateSlotOwnership(Slot slot, UserId userId) {
-        if (slot == null || !slot.getUserId().equals(userId)) {
+        if (slot == null || !slot.userId().equals(userId)) {
             throw new IllegalArgumentException("Slot not found or does not belong to the user");
         }
     }
@@ -135,9 +125,7 @@ public class CalendarServiceImpl implements CalendarService {
         Slot slot = this.slotRepository.get(slotId);
         validateSlotOwnership(slot, userId);
 
-        slot.setAvailability(availability);
-
-        return this.slotRepository.update(slot);
+        return this.slotRepository.update(slot.withAvailability(availability));
     }
 
 }

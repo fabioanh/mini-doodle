@@ -1,4 +1,4 @@
-package com.doodle.controllers;
+package com.doodle.controllers.dtos;
 
 import com.doodle.minidoodle.scheduling.Slot;
 
@@ -13,6 +13,6 @@ public record SlotResource(
         String availability
 ) {
     public SlotResource(Slot slot) {
-        this(slot.getSlotId().id(), slot.getStartTime(), slot.getDuration(), slot.getAvailability().name());
+        this(slot.slotId().id(), slot.startTime(), slot.duration(), slot.availability().name());
     }
 }

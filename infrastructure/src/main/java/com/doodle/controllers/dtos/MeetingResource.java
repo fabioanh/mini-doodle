@@ -1,4 +1,4 @@
-package com.doodle.controllers;
+package com.doodle.controllers.dtos;
 
 import com.doodle.minidoodle.scheduling.Meeting;
 import com.doodle.minidoodle.scheduling.UserId;
@@ -20,13 +20,13 @@ public record MeetingResource(
     public MeetingResource(Meeting meeting) {
 
         this(
-                meeting.getMeetingId().id(),
-                meeting.getTitle(),
-                meeting.getDescription(),
-                meeting.getStartTime(),
-                meeting.getDuration(),
-                meeting.getUserId().id(),
-                meeting.getParticipants().stream().map(UserId::getId).toList()
+                meeting.meetingId().id(),
+                meeting.title(),
+                meeting.description(),
+                meeting.startTime(),
+                meeting.duration(),
+                meeting.userId().id(),
+                meeting.participants().stream().map(UserId::getId).toList()
         );
     }
 

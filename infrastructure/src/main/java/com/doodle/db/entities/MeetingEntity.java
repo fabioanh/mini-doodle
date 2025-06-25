@@ -25,13 +25,13 @@ public class MeetingEntity {
     private List<UUID> participants;
 
     public MeetingEntity(Meeting meeting) {
-        this.id = meeting.getUserId().id();
-        this.startTime = meeting.getStartTime();
-        this.duration = meeting.getDuration();
-        this.title = meeting.getTitle();
-        this.description = meeting.getDescription();
-        this.userId = meeting.getUserId().id();
-        this.participants = meeting.getParticipants() != null? meeting.getParticipants().stream()
+        this.id = meeting.userId().id();
+        this.startTime = meeting.startTime();
+        this.duration = meeting.duration();
+        this.title = meeting.title();
+        this.description = meeting.description();
+        this.userId = meeting.userId().id();
+        this.participants = meeting.participants() != null? meeting.participants().stream()
                 .map(UserId::getId)
                 .toList() : Collections.emptyList();
     }

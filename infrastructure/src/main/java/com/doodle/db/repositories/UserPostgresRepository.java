@@ -15,6 +15,6 @@ public class UserPostgresRepository implements UserRepository {
 
     @Override
     public User save(User user) {
-        return this.userCrudRepository.save(new UserEntity(user.getUserId().getId())).toDomain();
+        return this.userCrudRepository.save(new UserEntity(user.userId().getId())).toDomain();
     }
 }

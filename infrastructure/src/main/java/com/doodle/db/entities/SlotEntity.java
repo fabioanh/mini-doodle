@@ -21,11 +21,11 @@ public class SlotEntity {
     private UUID userId;
 
     public SlotEntity(Slot slot) {
-        this.id = slot.getSlotId().id();
-        this.startTime = slot.getStartTime();
-        this.duration = slot.getDuration();
-        this.availability = slot.getAvailability().name();
-        this.userId = slot.getUserId().getId();
+        this.id = slot.slotId().id();
+        this.startTime = slot.startTime();
+        this.duration = slot.duration();
+        this.availability = slot.availability().name();
+        this.userId = slot.userId().getId();
     }
 
     public SlotEntity() {
@@ -48,7 +48,7 @@ public class SlotEntity {
         this.startTime = startTime;
     }
 
-    public Duration getDuration() {
+    public Duration duration() {
         return duration;
     }
 
@@ -56,7 +56,7 @@ public class SlotEntity {
         this.duration = duration;
     }
 
-    public String getAvailability() {
+    public String availability() {
         return availability;
     }
 
@@ -64,7 +64,7 @@ public class SlotEntity {
         this.availability = availability;
     }
 
-    public UUID getUserId() {
+    public UUID userId() {
         return userId;
     }
 
